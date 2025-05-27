@@ -13,12 +13,15 @@ server.get('/usuarios', async(req, res)=>{
     console.log(dados)
     res.status(200).send(dados)
 })
-server.get('usuarios/:id', (req, res)=>{
-    const sql = `SELECT * FROM usuarios WHERE id = ?`
+server.get('usuarios/:id', async (req, res)=>{
     const id = req.params.id
-    db.get(sql, [id], (err, dados)=>{
+    const sql = `SELECT * FROM usuarios WHERE id = ?`
+    const dados = await db.get(sql, [id])
+    if(!dados){
+        res.status(404).json({msg:'Not Found'})
+        return
+    }
     res.status(200).send(dados)
-    }) 
 })
 
 server.listen(8000, async(err)=>{
