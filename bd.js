@@ -39,10 +39,13 @@ async function conectar(){
         filename: './teste.db',
         driver: sqlite.Database
     })
-    console.log(db)
     return db
 }
-conectar()
+
+async function alterar_tabela(){
+    let sql = `ALTER TABLE usuarios ADD COLUMN senha TEXT`
+    db.exec(sql)
+}
 
 module.exports = { conectar }
 
